@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Crypto Board
+
+Real-time crypto dashboard powered by [DexScreener API](https://docs.dexscreener.com). Aggregates live token data across 5 views with a dark trading-terminal UI.
+
+## Features
+
+- **Token Profiles** — latest token listings with icons, chain, and descriptions
+- **Latest Boosts** — recently boosted tokens with amounts
+- **Top Boosts** — highest total boost amounts
+- **Ads** — active token advertisements with impressions and duration
+- **Community Takeovers** — latest CTO events with claim dates
+
+All data is fetched server-side in parallel via React Server Components. Tab switching is instant on the client.
+
+## Tech Stack
+
+- [Next.js 16](https://nextjs.org) — App Router, React Server Components
+- [React 19](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org) — strict mode
+- [Tailwind CSS v4](https://tailwindcss.com) — PostCSS plugin
+- [shadcn/ui](https://ui.shadcn.com) — Tabs component
+- [DexScreener API](https://docs.dexscreener.com) — no API key required
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Command      | Description              |
+| ------------ | ------------------------ |
+| `pnpm dev`   | Start dev server         |
+| `pnpm build` | Production build         |
+| `pnpm start` | Start production server  |
+| `pnpm lint`  | Run ESLint               |
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+app/
+  layout.tsx            # Root layout (dark theme, fonts)
+  page.tsx              # Server component — parallel API fetching
+  dashboard-tabs.tsx    # Client component — tab UI with 5 lists
+components/
+  token-card.tsx        # Reusable card + grid layout
+  token-icon.tsx        # Token avatar with fallback
+  chain-badge.tsx       # Chain ID badge
+  ui/                   # shadcn/ui primitives (tabs, button)
+lib/
+  dexscreener/
+    client.ts           # API client functions
+    endpoints.ts        # URL builders
+    types.ts            # TypeScript interfaces
+  format.ts             # Address truncation utility
+  utils.ts              # cn() helper
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Color Palette
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Token        | Color   | Hex       |
+| ------------ | ------- | --------- |
+| Background   | Navy    | `#0b0f19` |
+| Card         | Navy    | `#131a2b` |
+| Primary      | Teal    | `#0ecb81` |
+| Destructive  | Pink    | `#e84672` |
+| Muted        | Gray    | `#6b7280` |
+| Secondary    | Surface | `#1a2236` |
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
