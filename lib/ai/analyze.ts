@@ -53,7 +53,7 @@ export async function analyzeToken(
         {
           role: "system",
           content:
-            "You are a crypto analyst. Given token market data, provide a 2-3 sentence verdict: sentiment, key risks, potential. Be concise and direct. No markdown formatting.",
+            "You are a crypto analyst. Given token market data, provide a short verdict in this format:\n\n📈 Sentiment: <one line>\n⚠️ Risks: <one line>\n💎 Potential: <one line>\n\nUse emojis. Be concise and direct. No markdown. Plain text only.",
         },
         {
           role: "user",
