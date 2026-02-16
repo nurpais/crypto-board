@@ -12,6 +12,15 @@ import { BoostList } from "./boost-list";
 import { AdList } from "./ad-list";
 import { CTOList } from "./cto-list";
 
+function CountBadge({ count }: { count: number }) {
+  if (count === 0) return null;
+  return (
+    <span className="ml-1.5 rounded-full bg-primary/15 px-1.5 py-0.5 text-[10px] font-medium leading-none text-primary">
+      {count}
+    </span>
+  );
+}
+
 export interface DashboardTabsProps {
   profiles: TokenProfile[];
   latestBoosts: TokenBoost[];
@@ -30,11 +39,11 @@ export function DashboardTabs({
   return (
     <Tabs defaultValue="profiles">
       <TabsList>
-        <TabsTrigger value="profiles">Token Profiles</TabsTrigger>
-        <TabsTrigger value="latest-boosts">Latest Boosts</TabsTrigger>
-        <TabsTrigger value="top-boosts">Top Boosts</TabsTrigger>
-        <TabsTrigger value="ads">Ads</TabsTrigger>
-        <TabsTrigger value="cto">CTO</TabsTrigger>
+        <TabsTrigger value="profiles">Profiles<CountBadge count={profiles.length} /></TabsTrigger>
+        <TabsTrigger value="latest-boosts">Latest Boosts<CountBadge count={latestBoosts.length} /></TabsTrigger>
+        <TabsTrigger value="top-boosts">Top Boosts<CountBadge count={topBoosts.length} /></TabsTrigger>
+        <TabsTrigger value="ads">Ads<CountBadge count={ads.length} /></TabsTrigger>
+        <TabsTrigger value="cto">CTO<CountBadge count={ctos.length} /></TabsTrigger>
       </TabsList>
       <div className="mt-4">
         <TabsContent value="profiles">
