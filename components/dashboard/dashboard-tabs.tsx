@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import type {
   TokenProfile,
@@ -21,6 +22,14 @@ function CountBadge({ count }: { count: number }) {
   );
 }
 
+const tabDescriptions: Record<string, string> = {
+  profiles: "Tokens with updated profiles — icons, descriptions, and social links.",
+  "latest-boosts": "Recently boosted tokens sorted by time.",
+  "top-boosts": "Tokens with the most active boosts right now.",
+  ads: "Tokens currently running paid advertisements on DexScreener.",
+  cto: "Tokens where the community has taken over the token page.",
+};
+
 export interface DashboardTabsProps {
   profiles: TokenProfile[];
   latestBoosts: TokenBoost[];
@@ -36,8 +45,10 @@ export function DashboardTabs({
   ads,
   ctos,
 }: DashboardTabsProps) {
+  const [activeTab, setActiveTab] = useState("profiles");
+
   return (
-    <Tabs defaultValue="profiles">
+    <Tabs defaultValue="profiles" onValueChange={setActiveTab}>
       <TabsList>
         <TabsTrigger value="profiles">Profiles<CountBadge count={profiles.length} /></TabsTrigger>
         <TabsTrigger value="latest-boosts">Latest Boosts<CountBadge count={latestBoosts.length} /></TabsTrigger>
@@ -45,6 +56,9 @@ export function DashboardTabs({
         <TabsTrigger value="ads">Ads<CountBadge count={ads.length} /></TabsTrigger>
         <TabsTrigger value="cto">CTO<CountBadge count={ctos.length} /></TabsTrigger>
       </TabsList>
+      <p className="mt-3 text-sm text-muted-foreground">
+        {tabDescriptions[activeTab]}
+      </p>
       <div className="mt-4">
         <TabsContent value="profiles">
           <ProfileList items={profiles} />
