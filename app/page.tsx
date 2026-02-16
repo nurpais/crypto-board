@@ -5,7 +5,7 @@ import {
   getLatestAds,
   getLatestCommunityTakeovers,
 } from "@/lib/dexscreener/client";
-import { DashboardTabs } from "./dashboard-tabs";
+import { DashboardTabs } from "@/components/dashboard/dashboard-tabs";
 
 export const dynamic = "force-dynamic";
 
