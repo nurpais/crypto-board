@@ -7,7 +7,7 @@ import {
 } from "@/lib/dexscreener/client";
 import { DashboardTabs } from "@/components/dashboard/dashboard-tabs";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 async function fetchDashboardData() {
   const [profiles, latestBoosts, topBoosts, ads, ctos] = await Promise.all([
