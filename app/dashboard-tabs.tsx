@@ -13,7 +13,13 @@ function ProfileList({ items }: { items: TokenProfile[] }) {
   return (
     <TokenCardGrid>
       {items.map((p, i) => (
-        <TokenCard key={`${p.chainId}-${p.tokenAddress}-${i}`} {...p} icon={p.icon}>
+        <TokenCard
+          key={`${p.url}-${i}`}
+          url={p.url}
+          chainId={p.chainId}
+          tokenAddress={p.tokenAddress}
+          icon={p.icon}
+        >
           {p.description && (
             <p className="line-clamp-2 text-sm text-muted-foreground">
               {p.description}
@@ -35,7 +41,13 @@ function BoostList({
   return (
     <TokenCardGrid>
       {items.map((b, i) => (
-        <TokenCard key={`${b.chainId}-${b.tokenAddress}-${i}`} {...b} icon={b.icon}>
+        <TokenCard
+          key={`boost-${b.url}-${i}`}
+          url={b.url}
+          chainId={b.chainId}
+          tokenAddress={b.tokenAddress}
+          icon={b.icon}
+        >
           <div className="text-sm text-muted-foreground">
             {showTotal && b.totalAmount != null && (
               <span>
@@ -60,7 +72,12 @@ function AdList({ items }: { items: Ad[] }) {
   return (
     <TokenCardGrid>
       {items.map((a, i) => (
-        <TokenCard key={`${a.chainId}-${a.tokenAddress}-${i}`} {...a}>
+        <TokenCard
+          key={`ad-${a.url}-${i}`}
+          url={a.url}
+          chainId={a.chainId}
+          tokenAddress={a.tokenAddress}
+        >
           <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
             <span>{new Date(a.date).toLocaleDateString()}</span>
             <span className="rounded bg-primary/20 px-1.5 py-0.5 text-xs text-primary">
@@ -86,7 +103,13 @@ function CTOList({ items }: { items: CommunityTakeover[] }) {
   return (
     <TokenCardGrid>
       {items.map((c, i) => (
-        <TokenCard key={`${c.chainId}-${c.tokenAddress}-${i}`} {...c} icon={c.icon}>
+        <TokenCard
+          key={`cto-${c.url}-${i}`}
+          url={c.url}
+          chainId={c.chainId}
+          tokenAddress={c.tokenAddress}
+          icon={c.icon}
+        >
           <div className="text-sm text-muted-foreground">
             {new Date(c.claimDate).toLocaleDateString()}
           </div>
@@ -101,7 +124,7 @@ function CTOList({ items }: { items: CommunityTakeover[] }) {
   );
 }
 
-interface DashboardTabsProps {
+export interface DashboardTabsProps {
   profiles: TokenProfile[];
   latestBoosts: TokenBoost[];
   topBoosts: TokenBoost[];
