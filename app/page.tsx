@@ -8,7 +8,6 @@ import {
 import { DashboardTabs } from "@/components/dashboard/dashboard-tabs";
 import Link from "next/link";
 import { Search, Wallet } from "lucide-react";
-import { TelegramSendButton } from "@/components/telegram-send-button";
 
 export const revalidate = 60;
 
@@ -48,7 +47,6 @@ export default async function Home() {
             <Search className="h-4 w-4" />
             Search
           </Link>
-          <TelegramSendButton />
         </div>
       </div>
       <DashboardTabs {...data} />
