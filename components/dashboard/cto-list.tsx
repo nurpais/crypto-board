@@ -1,4 +1,5 @@
 import { TokenCard, TokenCardGrid } from "@/components/token-card";
+import { SocialLinks } from "@/components/social-links";
 import type { CommunityTakeover } from "@/lib/dexscreener/types";
 
 export function CTOList({ items }: { items: CommunityTakeover[] }) {
@@ -20,6 +21,7 @@ export function CTOList({ items }: { items: CommunityTakeover[] }) {
               {c.description}
             </p>
           )}
+          {c.links && c.links.length > 0 && <SocialLinks links={c.links} />}
         </TokenCard>
       ))}
     </TokenCardGrid>

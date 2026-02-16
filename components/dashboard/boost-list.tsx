@@ -1,4 +1,5 @@
 import { TokenCard, TokenCardGrid } from "@/components/token-card";
+import { SocialLinks } from "@/components/social-links";
 import type { TokenBoost } from "@/lib/dexscreener/types";
 
 export function BoostList({
@@ -18,7 +19,7 @@ export function BoostList({
           tokenAddress={b.tokenAddress}
           icon={b.icon}
         >
-          <div className="text-sm text-muted-foreground">
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
             {showTotal && b.totalAmount != null && (
               <span>
                 Total:{" "}
@@ -32,6 +33,12 @@ export function BoostList({
               </span>
             )}
           </div>
+          {b.description && (
+            <p className="line-clamp-2 text-sm text-muted-foreground">
+              {b.description}
+            </p>
+          )}
+          {b.links && b.links.length > 0 && <SocialLinks links={b.links} />}
         </TokenCard>
       ))}
     </TokenCardGrid>

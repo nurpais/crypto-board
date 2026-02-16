@@ -1,4 +1,5 @@
 import { TokenCard, TokenCardGrid } from "@/components/token-card";
+import { SocialLinks } from "@/components/social-links";
 import type { TokenProfile } from "@/lib/dexscreener/types";
 
 export function ProfileList({ items }: { items: TokenProfile[] }) {
@@ -17,6 +18,12 @@ export function ProfileList({ items }: { items: TokenProfile[] }) {
               {p.description}
             </p>
           )}
+          {p.cto && (
+            <span className="inline-block w-fit rounded bg-primary/15 px-1.5 py-0.5 text-xs font-medium text-primary">
+              CTO
+            </span>
+          )}
+          {p.links.length > 0 && <SocialLinks links={p.links} />}
         </TokenCard>
       ))}
     </TokenCardGrid>
