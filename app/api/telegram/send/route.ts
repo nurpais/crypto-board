@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getTopTokenBoosts, getTokenPairs } from "@/lib/dexscreener/client";
 import { sendMessage, formatTokenMessage } from "@/lib/telegram";
+import { analyzeToken } from "@/lib/ai";
 
 export async function POST(request: Request) {
   const apiKey = request.headers.get("x-api-key");
@@ -26,7 +27,8 @@ export async function POST(request: Request) {
   }
 
   const pair = pairs?.[0];
-  const text = formatTokenMessage(top, pair);
+  const analysis = await analyzeToken(top, pair);
+  const text = formatTokenMessage(top, pair, analysis);
 
   await sendMessage(text);
 

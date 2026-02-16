@@ -22,7 +22,7 @@ function formatChainName(chainId: string): string {
   return names[chainId] ?? chainId;
 }
 
-export function formatTokenMessage(boost: TokenBoost, pair?: DexPair): string {
+export function formatTokenMessage(boost: TokenBoost, pair?: DexPair, analysis?: string): string {
   const lines: string[] = [];
 
   const symbol = pair?.baseToken.symbol ?? "???";
@@ -68,6 +68,11 @@ export function formatTokenMessage(boost: TokenBoost, pair?: DexPair): string {
     const desc = escapeHtml(boost.description);
     const trimmed = desc.length > 200 ? desc.slice(0, 200) + "..." : desc;
     lines.push(`📝 ${trimmed}`);
+  }
+
+  if (analysis) {
+    lines.push("");
+    lines.push(`🤖 ${escapeHtml(analysis)}`);
   }
 
   // Links

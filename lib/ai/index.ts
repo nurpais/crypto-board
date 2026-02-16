@@ -1,0 +1,1 @@
+export { analyzeToken } from "./analyze";
