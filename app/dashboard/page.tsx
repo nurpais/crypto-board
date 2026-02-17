@@ -7,7 +7,8 @@ import {
 } from "@/lib/dexscreener/client";
 import { DashboardTabs } from "@/components/dashboard/dashboard-tabs";
 import Link from "next/link";
-import { Search, Wallet } from "lucide-react";
+import { Search, Eye } from "lucide-react";
+import { WalletConnectButton } from "@/components/solana/wallet-connect-button";
 
 export const revalidate = 60;
 
@@ -29,16 +30,17 @@ export default async function Dashboard() {
   return (
     <main className="mx-auto max-w-5xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">
+        <Link href="/" className="text-2xl font-semibold">
           Crypto <span className="text-primary">Board</span>
-        </h1>
+        </Link>
         <div className="flex items-center gap-2">
+          <WalletConnectButton />
           <Link
             href="/wallet"
             className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary/30 hover:text-white"
           >
-            <Wallet className="h-4 w-4" />
-            Wallet
+            <Eye className="h-4 w-4" />
+            Lookup
           </Link>
           <Link
             href="/search"

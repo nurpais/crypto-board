@@ -1,22 +1,24 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useState, useEffect, useCallback, type FormEvent } from "react";
+import { useWallet } from "@solana/wallet-adapter-react";
 import { Wallet } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { WalletHoldings } from "@/components/wallet/wallet-holdings";
+import { truncateAddress } from "@/lib/format";
 import type { HeliusAssetList } from "@/lib/helius/types";
 import Link from "next/link";
 
 export default function WalletPage() {
+  const { publicKey, connected } = useWallet();
   const [address, setAddress] = useState("");
   const [data, setData] = useState<HeliusAssetList | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const trimmed = address.trim();
+  const fetchWallet = useCallback(async (walletAddress: string) => {
+    const trimmed = walletAddress.trim();
     if (!trimmed) return;
 
     setLoading(true);
@@ -40,7 +42,22 @@ export default function WalletPage() {
     } finally {
       setLoading(false);
     }
+  }, []);
+
+  useEffect(() => {
+    if (connected && publicKey) {
+      const addr = publicKey.toBase58();
+      setAddress(addr);
+      fetchWallet(addr);
+    }
+  }, [connected, publicKey, fetchWallet]);
+
+  function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    fetchWallet(address);
   }
+
+  const connectedAddress = connected && publicKey ? publicKey.toBase58() : null;
 
   return (
     <main className="mx-auto max-w-5xl px-4 py-8">
@@ -55,6 +72,16 @@ export default function WalletPage() {
           Wallet <span className="text-primary">Explorer</span>
         </h1>
       </div>
+
+      {connectedAddress && (
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-4 py-2.5 text-sm">
+          <div className="h-2 w-2 rounded-full bg-primary" />
+          <span className="text-muted-foreground">Connected:</span>
+          <span className="font-mono text-primary">
+            {truncateAddress(connectedAddress)}
+          </span>
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="mb-6 flex gap-2">
         <div className="relative flex-1">

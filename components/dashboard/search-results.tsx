@@ -71,28 +71,15 @@ function BuySellBar({ buys, sells }: { buys: number; sells: number }) {
   );
 }
 
-function PairAge({ createdAt }: { createdAt: number }) {
-  const now = Date.now();
-  const diff = now - createdAt;
+function formatAge(createdAt: number): string {
+  const diff = Date.now() - createdAt;
   const hours = Math.floor(diff / 3_600_000);
   const days = Math.floor(hours / 24);
 
-  let age: string;
-  if (days > 365) {
-    age = `${Math.floor(days / 365)}y`;
-  } else if (days > 30) {
-    age = `${Math.floor(days / 30)}mo`;
-  } else if (days > 0) {
-    age = `${days}d`;
-  } else {
-    age = `${hours}h`;
-  }
-
-  return (
-    <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] tabular-nums text-muted-foreground">
-      {age} old
-    </span>
-  );
+  if (days > 365) return `${Math.floor(days / 365)}y`;
+  if (days > 30) return `${Math.floor(days / 30)}mo`;
+  if (days > 0) return `${days}d`;
+  return `${hours}h`;
 }
 
 function PairInfo({ pair }: { pair: DexPair }) {
@@ -119,7 +106,11 @@ function PairInfo({ pair }: { pair: DexPair }) {
         <span className="text-lg font-semibold tabular-nums text-white">
           {formatPrice(pair.priceUsd)}
         </span>
-        {pair.pairCreatedAt && <PairAge createdAt={pair.pairCreatedAt} />}
+        {pair.pairCreatedAt && (
+          <span className="rounded bg-secondary px-1.5 py-0.5 text-[10px] tabular-nums text-muted-foreground">
+            {formatAge(pair.pairCreatedAt)} old
+          </span>
+        )}
       </div>
 
       {/* Metrics grid */}
