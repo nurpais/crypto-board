@@ -23,7 +23,7 @@ export function ProfileList({ items }: { items: TokenProfile[] }) {
               CTO
             </span>
           )}
-          {p.links.length > 0 && <SocialLinks links={p.links} />}
+          {p.links && p.links.length > 0 && <SocialLinks links={p.links} />}
         </TokenCard>
       ))}
     </TokenCardGrid>

@@ -3,7 +3,7 @@ import { Globe, Twitter, MessageCircle, Send } from "lucide-react";
 
 function getLinkIcon(link: TokenLink) {
   const type = link.type?.toLowerCase() ?? "";
-  const label = link.label?.toLowerCase() ?? "";
+
   const url = link.url.toLowerCase();
 
   if (type === "twitter" || url.includes("twitter.com") || url.includes("x.com")) {
