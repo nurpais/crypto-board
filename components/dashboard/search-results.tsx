@@ -1,5 +1,6 @@
 import type { DexPair } from "@/lib/dexscreener/types";
 import { TokenCard, TokenCardGrid } from "@/components/token-card";
+import { AnalyzeButton } from "@/components/dashboard/analyze-button";
 import { formatPrice, formatCompactNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -57,6 +58,9 @@ export function SearchResults({ items }: { items: DexPair[] }) {
           icon={pair.info?.imageUrl}
         >
           <PairInfo pair={pair} />
+          <div className="flex justify-end">
+            <AnalyzeButton chainId={pair.chainId} tokenAddress={pair.baseToken.address} />
+          </div>
         </TokenCard>
       ))}
     </TokenCardGrid>
