@@ -12,9 +12,9 @@ export function BoostList({
 }) {
   return (
     <TokenCardGrid>
-      {items.map((b) => (
+      {items.map((b, i) => (
         <TokenCard
-          key={`${b.chainId}-${b.tokenAddress}`}
+          key={`${b.chainId}-${b.tokenAddress}-${i}`}
           url={b.url}
           chainId={b.chainId}
           tokenAddress={b.tokenAddress}

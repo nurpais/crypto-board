@@ -5,9 +5,9 @@ import type { TokenProfile } from "@/lib/dexscreener/types";
 export function ProfileList({ items }: { items: TokenProfile[] }) {
   return (
     <TokenCardGrid>
-      {items.map((p) => (
+      {items.map((p, i) => (
         <TokenCard
-          key={`${p.chainId}-${p.tokenAddress}`}
+          key={`${p.chainId}-${p.tokenAddress}-${i}`}
           url={p.url}
           chainId={p.chainId}
           tokenAddress={p.tokenAddress}

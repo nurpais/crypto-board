@@ -4,9 +4,9 @@ import type { Ad } from "@/lib/dexscreener/types";
 export function AdList({ items }: { items: Ad[] }) {
   return (
     <TokenCardGrid>
-      {items.map((a) => (
+      {items.map((a, i) => (
         <TokenCard
-          key={`${a.chainId}-${a.tokenAddress}`}
+          key={`${a.chainId}-${a.tokenAddress}-${i}`}
           url={a.url}
           chainId={a.chainId}
           tokenAddress={a.tokenAddress}

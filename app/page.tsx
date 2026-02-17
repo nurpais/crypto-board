@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BarChart3, Sparkles, Wallet, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const features = [
   {
@@ -32,12 +33,9 @@ export default function LandingPage() {
         <span className="text-lg font-semibold">
           Crypto <span className="text-primary">Board</span>
         </span>
-        <Link
-          href="/dashboard"
-          className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-black transition-opacity hover:opacity-90"
-        >
-          Open Dashboard
-        </Link>
+        <Button asChild size="sm">
+          <Link href="/dashboard">Open Dashboard</Link>
+        </Button>
       </nav>
 
       {/* Hero */}
@@ -54,13 +52,12 @@ export default function LandingPage() {
           AI-powered token analysis, live DexScreener data, and instant Telegram
           alerts — all in one dashboard.
         </p>
-        <Link
-          href="/dashboard"
-          className="relative mt-8 inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 text-base font-medium text-black transition-opacity hover:opacity-90"
-        >
-          Launch Dashboard
-          <ArrowRight className="h-4 w-4" />
-        </Link>
+        <Button asChild size="lg" className="relative mt-8 gap-2">
+          <Link href="/dashboard">
+            Launch Dashboard
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </Button>
       </section>
 
       {/* Features */}

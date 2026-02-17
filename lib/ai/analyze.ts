@@ -67,7 +67,8 @@ export async function analyzeToken(
     });
 
     return completion.choices[0]?.message?.content?.trim() ?? "";
-  } catch {
+  } catch (error) {
+    console.error("[AI] Token analysis failed:", error instanceof Error ? error.message : error);
     return "";
   }
 }

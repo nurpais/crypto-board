@@ -1,7 +1,5 @@
 import type { HeliusAssetList } from "./types";
 
-const HELIUS_API_KEY = process.env.HELIUS_API_KEY;
-
 class HeliusError extends Error {
   constructor(
     public status: number,
@@ -15,12 +13,13 @@ class HeliusError extends Error {
 export async function getWalletAssets(
   address: string,
 ): Promise<HeliusAssetList> {
-  if (!HELIUS_API_KEY) {
+  const apiKey = process.env.HELIUS_API_KEY;
+  if (!apiKey) {
     throw new HeliusError(500, "HELIUS_API_KEY is not configured");
   }
 
   const res = await fetch(
-    `https://mainnet.helius-rpc.com/?api-key=${HELIUS_API_KEY}`,
+    `https://mainnet.helius-rpc.com/?api-key=${apiKey}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

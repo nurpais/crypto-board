@@ -1,20 +1,34 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { Sparkles, Loader2, Check, X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-type Status = "idle" | "loading" | "success" | "error";
+type AnalyzeStatus = "idle" | "loading" | "success" | "error";
 
-export function AnalyzeButton({
-  chainId,
-  tokenAddress,
-}: {
+interface AnalyzeButtonProps {
   chainId: string;
   tokenAddress: string;
-}) {
-  const [status, setStatus] = useState<Status>("idle");
+}
 
-  const handleClick = useCallback(async () => {
+const statusIcons: Record<AnalyzeStatus, React.ReactNode> = {
+  idle: <Sparkles className="size-3.5" />,
+  loading: <Loader2 className="size-3.5 animate-spin" />,
+  success: <Check className="size-3.5" />,
+  error: <X className="size-3.5" />,
+};
+
+const statusStyles: Record<AnalyzeStatus, string> = {
+  idle: "text-muted-foreground hover:text-primary hover:border-primary/30",
+  loading: "text-muted-foreground cursor-wait",
+  success: "text-primary border-primary/30",
+  error: "text-destructive border-destructive/30",
+};
+
+export function AnalyzeButton({ chainId, tokenAddress }: AnalyzeButtonProps) {
+  const [status, setStatus] = useState<AnalyzeStatus>("idle");
+
+  async function handleClick() {
     if (status === "loading") return;
     setStatus("loading");
 
@@ -25,28 +39,13 @@ export function AnalyzeButton({
         body: JSON.stringify({ chainId, tokenAddress }),
       });
 
-      if (!res.ok) throw new Error("Failed");
-      setStatus("success");
+      setStatus(res.ok ? "success" : "error");
     } catch {
       setStatus("error");
     }
 
     setTimeout(() => setStatus("idle"), 2000);
-  }, [chainId, tokenAddress, status]);
-
-  const icon = {
-    idle: <Sparkles className="size-3.5" />,
-    loading: <Loader2 className="size-3.5 animate-spin" />,
-    success: <Check className="size-3.5" />,
-    error: <X className="size-3.5" />,
-  }[status];
-
-  const colors = {
-    idle: "text-muted-foreground hover:text-primary hover:border-primary/30",
-    loading: "text-muted-foreground cursor-wait",
-    success: "text-primary border-primary/30",
-    error: "text-destructive border-destructive/30",
-  }[status];
+  }
 
   return (
     <button
@@ -54,9 +53,12 @@ export function AnalyzeButton({
       onClick={handleClick}
       disabled={status === "loading"}
       title="AI analyze → Telegram"
-      className={`inline-flex items-center justify-center rounded-md border border-border p-1.5 transition-colors ${colors}`}
+      className={cn(
+        "inline-flex items-center justify-center rounded-md border border-border p-1.5 transition-colors",
+        statusStyles[status],
+      )}
     >
-      {icon}
+      {statusIcons[status]}
     </button>
   );
 }

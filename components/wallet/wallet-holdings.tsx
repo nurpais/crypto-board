@@ -27,15 +27,17 @@ function getTokenRows(assets: HeliusAsset[]): TokenRow[] {
   );
 
   return fungibles
+    .filter((a): a is HeliusAsset & { token_info: NonNullable<HeliusAsset["token_info"]> } => !!a.token_info)
     .map((a) => {
-      const decimals = a.token_info!.decimals;
-      const balance = a.token_info!.balance / 10 ** decimals;
-      const pricePerToken = a.token_info?.price_info?.price_per_token ?? 0;
+      const { token_info: tokenInfo } = a;
+      const decimals = tokenInfo.decimals;
+      const balance = tokenInfo.balance / 10 ** decimals;
+      const pricePerToken = tokenInfo.price_info?.price_per_token ?? 0;
       const value = balance * pricePerToken;
 
       return {
         id: a.id,
-        symbol: a.token_info?.symbol ?? a.content?.metadata?.symbol ?? "???",
+        symbol: tokenInfo.symbol ?? a.content?.metadata?.symbol ?? "???",
         name: a.content?.metadata?.name ?? "Unknown",
         image: a.content?.links?.image,
         balance,

@@ -5,12 +5,30 @@ import { analyzeToken } from "@/lib/ai";
 import { fetchTwitterContent } from "@/lib/twitter/scrape";
 import type { TokenBoost } from "@/lib/dexscreener/types";
 
-// Simple in-memory rate limiting (per-IP, 5 requests per minute)
+// In-memory rate limiting (per-IP, 5 requests per minute)
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const RATE_LIMIT = 5;
 const RATE_WINDOW_MS = 60_000;
+const CLEANUP_INTERVAL_MS = 5 * 60_000;
+
+// Periodic cleanup to prevent memory leaks
+let lastCleanup = Date.now();
+
+function cleanupExpiredEntries() {
+  const now = Date.now();
+  if (now - lastCleanup < CLEANUP_INTERVAL_MS) return;
+  lastCleanup = now;
+
+  for (const [ip, entry] of rateLimitMap) {
+    if (now > entry.resetAt) {
+      rateLimitMap.delete(ip);
+    }
+  }
+}
 
 function isRateLimited(ip: string): boolean {
+  cleanupExpiredEntries();
+
   const now = Date.now();
   const entry = rateLimitMap.get(ip);
 
