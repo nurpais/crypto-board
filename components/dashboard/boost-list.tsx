@@ -1,5 +1,6 @@
 import { TokenCard, TokenCardGrid } from "@/components/token-card";
 import { SocialLinks } from "@/components/social-links";
+import { AnalyzeButton } from "@/components/dashboard/analyze-button";
 import type { TokenBoost } from "@/lib/dexscreener/types";
 
 export function BoostList({
@@ -38,7 +39,10 @@ export function BoostList({
               {b.description}
             </p>
           )}
-          {b.links && b.links.length > 0 && <SocialLinks links={b.links} />}
+          <div className="flex items-center justify-between">
+            {b.links && b.links.length > 0 && <SocialLinks links={b.links} />}
+            <AnalyzeButton chainId={b.chainId} tokenAddress={b.tokenAddress} />
+          </div>
         </TokenCard>
       ))}
     </TokenCardGrid>

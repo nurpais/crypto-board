@@ -14,6 +14,7 @@ function getClient(): OpenAI {
 export async function analyzeToken(
   boost: TokenBoost,
   pair?: DexPair,
+  twitterContent?: string,
 ): Promise<string> {
   try {
     const parts: string[] = [];
@@ -44,6 +45,9 @@ export async function analyzeToken(
     if (boost.description) {
       parts.push(`Description: ${boost.description.slice(0, 200)}`);
     }
+    if (twitterContent) {
+      parts.push(`Twitter/social context: ${twitterContent.slice(0, 500)}`);
+    }
 
     const completion = await getClient().chat.completions.create({
       model: "gpt-4o-mini",
@@ -53,7 +57,7 @@ export async function analyzeToken(
         {
           role: "system",
           content:
-            "You are a crypto analyst. Given token market data, provide a short verdict in this format:\n\n📈 Sentiment: <one line>\n⚠️ Risks: <one line>\n💎 Potential: <one line>\n\nUse emojis. Be concise and direct. No markdown. Plain text only.",
+            "You are a crypto analyst. Given token market data (and optionally social media context), provide a short verdict in this format:\n\n📈 Sentiment: <one line>\n⚠️ Risks: <one line>\n💎 Potential: <one line>\n\nUse emojis. Be concise and direct. No markdown. Plain text only.",
         },
         {
           role: "user",
