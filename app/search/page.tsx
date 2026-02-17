@@ -55,7 +55,7 @@ export default function SearchPage() {
     <main className="mx-auto max-w-5xl px-4 py-8">
       <div className="mb-6 flex items-center gap-3">
         <Link
-          href="/"
+          href="/dashboard"
           className="text-muted-foreground transition-colors hover:text-white"
         >
           &larr;

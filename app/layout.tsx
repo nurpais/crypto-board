@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Crypto Board",
-  description: "Crypto dashboard",
+  description: "Real-time crypto intelligence dashboard with AI-powered analysis and Telegram alerts",
 };
 
 export default function RootLayout({
