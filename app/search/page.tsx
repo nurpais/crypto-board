@@ -81,7 +81,7 @@ export default function SearchPage() {
           {Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="h-28 animate-pulse rounded-lg border border-border bg-card"
+              className="h-44 animate-pulse rounded-lg border border-border bg-card"
             />
           ))}
         </div>

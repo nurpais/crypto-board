@@ -1,7 +1,7 @@
 import { TokenCard, TokenCardGrid } from "@/components/token-card";
 import { SocialLinks } from "@/components/social-links";
-import { AnalyzeButton } from "@/components/dashboard/analyze-button";
 import type { TokenBoost } from "@/lib/dexscreener/types";
+import { Zap } from "lucide-react";
 
 export function BoostList({
   items,
@@ -12,39 +12,36 @@ export function BoostList({
 }) {
   return (
     <TokenCardGrid>
-      {items.map((b, i) => (
-        <TokenCard
-          key={`${b.chainId}-${b.tokenAddress}-${i}`}
-          url={b.url}
-          chainId={b.chainId}
-          tokenAddress={b.tokenAddress}
-          icon={b.icon}
-        >
-          <div className="flex items-center gap-3 text-sm text-muted-foreground">
-            {showTotal && b.totalAmount != null && (
-              <span>
-                Total:{" "}
-                <span className="font-medium text-primary">{b.totalAmount}</span>
-              </span>
+      {items.map((b, i) => {
+        const value = showTotal ? b.totalAmount : b.amount;
+        const label = showTotal ? "Total Boost" : "Boost";
+
+        return (
+          <TokenCard
+            key={`${b.chainId}-${b.tokenAddress}-${i}`}
+            url={b.url}
+            chainId={b.chainId}
+            tokenAddress={b.tokenAddress}
+            icon={b.icon}
+          >
+            {value != null && (
+              <div className="flex items-center gap-1.5">
+                <Zap className="h-3.5 w-3.5 text-primary" />
+                <span className="text-xs text-muted-foreground">{label}</span>
+                <span className="rounded-md bg-primary/10 px-1.5 py-0.5 text-xs font-semibold tabular-nums text-primary">
+                  {value}
+                </span>
+              </div>
             )}
-            {!showTotal && b.amount != null && (
-              <span>
-                Amount:{" "}
-                <span className="font-medium text-primary">{b.amount}</span>
-              </span>
+            {b.description && (
+              <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                {b.description}
+              </p>
             )}
-          </div>
-          {b.description && (
-            <p className="line-clamp-2 text-sm text-muted-foreground">
-              {b.description}
-            </p>
-          )}
-          <div className="flex items-center justify-between">
             {b.links && b.links.length > 0 && <SocialLinks links={b.links} />}
-            <AnalyzeButton chainId={b.chainId} tokenAddress={b.tokenAddress} />
-          </div>
-        </TokenCard>
-      ))}
+          </TokenCard>
+        );
+      })}
     </TokenCardGrid>
   );
 }

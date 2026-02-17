@@ -14,12 +14,12 @@ export function ProfileList({ items }: { items: TokenProfile[] }) {
           icon={p.icon}
         >
           {p.description && (
-            <p className="line-clamp-2 text-sm text-muted-foreground">
+            <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
               {p.description}
             </p>
           )}
           {p.cto && (
-            <span className="inline-block w-fit rounded bg-primary/15 px-1.5 py-0.5 text-xs font-medium text-primary">
+            <span className="inline-flex w-fit items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
               CTO
             </span>
           )}
