@@ -1,5 +1,10 @@
-const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN!;
-const CHAT_ID = process.env.TELEGRAM_CHAT_ID!;
+function getEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
+}
 
 interface SendMessageOptions {
   disable_web_page_preview?: boolean;
@@ -15,13 +20,15 @@ export async function sendMessage(
   text: string,
   options: SendMessageOptions = {},
 ): Promise<TelegramResponse> {
-  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+  const botToken = getEnvVar("TELEGRAM_BOT_TOKEN");
+  const chatId = getEnvVar("TELEGRAM_CHAT_ID");
+  const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
 
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      chat_id: CHAT_ID,
+      chat_id: chatId,
       text,
       parse_mode: "HTML",
       disable_web_page_preview: options.disable_web_page_preview ?? true,

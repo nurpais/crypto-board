@@ -22,7 +22,9 @@ function CountBadge({ count }: { count: number }) {
   );
 }
 
-const tabDescriptions: Record<string, string> = {
+type TabValue = "profiles" | "latest-boosts" | "top-boosts" | "ads" | "cto";
+
+const tabDescriptions: Record<TabValue, string> = {
   profiles: "Tokens with updated profiles — icons, descriptions, and social links.",
   "latest-boosts": "Recently boosted tokens sorted by time.",
   "top-boosts": "Tokens with the most active boosts right now.",
@@ -45,10 +47,10 @@ export function DashboardTabs({
   ads,
   ctos,
 }: DashboardTabsProps) {
-  const [activeTab, setActiveTab] = useState("profiles");
+  const [activeTab, setActiveTab] = useState<TabValue>("profiles");
 
   return (
-    <Tabs defaultValue="profiles" onValueChange={setActiveTab}>
+    <Tabs defaultValue="profiles" onValueChange={(v) => setActiveTab(v as TabValue)}>
       <TabsList>
         <TabsTrigger value="profiles">Profiles<CountBadge count={profiles.length} /></TabsTrigger>
         <TabsTrigger value="latest-boosts">Latest Boosts<CountBadge count={latestBoosts.length} /></TabsTrigger>

@@ -1,24 +1,12 @@
 "use client";
 
 import { TokenIcon } from "@/components/token-icon";
+import { formatUsd, formatBalance } from "@/lib/format";
 import type { HeliusAsset, HeliusNativeBalance } from "@/lib/helius/types";
 
 interface WalletHoldingsProps {
   assets: HeliusAsset[];
   nativeBalance?: HeliusNativeBalance;
-}
-
-function formatUsd(value: number): string {
-  if (value >= 1) return `$${value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  if (value >= 0.01) return `$${value.toFixed(4)}`;
-  return `$${value.toFixed(6)}`;
-}
-
-function formatBalance(value: number): string {
-  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(2)}M`;
-  if (value >= 1_000) return `${(value / 1_000).toFixed(2)}K`;
-  if (value >= 1) return value.toFixed(4);
-  return value.toFixed(6);
 }
 
 interface TokenRow {

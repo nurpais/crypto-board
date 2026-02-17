@@ -1,20 +1,7 @@
 import type { DexPair } from "@/lib/dexscreener/types";
 import { TokenCard, TokenCardGrid } from "@/components/token-card";
+import { formatPrice, formatCompactNumber } from "@/lib/format";
 import { cn } from "@/lib/utils";
-
-function formatPrice(price?: string) {
-  if (!price) return "—";
-  const n = parseFloat(price);
-  if (n >= 1) return `$${n.toLocaleString("en-US", { maximumFractionDigits: 2 })}`;
-  return `$${n.toPrecision(4)}`;
-}
-
-function formatVolume(vol?: number) {
-  if (!vol) return "—";
-  if (vol >= 1_000_000) return `$${(vol / 1_000_000).toFixed(1)}M`;
-  if (vol >= 1_000) return `$${(vol / 1_000).toFixed(1)}K`;
-  return `$${vol.toFixed(0)}`;
-}
 
 function PairInfo({ pair }: { pair: DexPair }) {
   const change = pair.priceChange?.h24;
@@ -43,7 +30,7 @@ function PairInfo({ pair }: { pair: DexPair }) {
           </span>
         )}
         <span className="text-xs text-muted-foreground">
-          Vol {formatVolume(pair.volume?.h24)}
+          Vol {pair.volume?.h24 != null ? formatCompactNumber(pair.volume.h24) : "—"}
         </span>
       </div>
     </>

@@ -1,5 +1,5 @@
 import type { TokenBoost, DexPair } from "@/lib/dexscreener/types";
-import { formatCompactNumber } from "@/lib/format";
+import { formatCompactNumber, formatCount } from "@/lib/format";
 
 function escapeHtml(text: string): string {
   return text
@@ -51,15 +51,7 @@ export function formatTokenMessage(boost: TokenBoost, pair?: DexPair, analysis?:
 
     const txns = pair.txns?.h24;
     if (txns) {
-      const buys =
-        txns.buys >= 1000
-          ? `${(txns.buys / 1000).toFixed(1)}K`
-          : String(txns.buys);
-      const sells =
-        txns.sells >= 1000
-          ? `${(txns.sells / 1000).toFixed(1)}K`
-          : String(txns.sells);
-      lines.push(`🔄 Buys: ${buys} · Sells: ${sells}`);
+      lines.push(`🔄 Buys: ${formatCount(txns.buys)} · Sells: ${formatCount(txns.sells)}`);
     }
   }
 
@@ -77,7 +69,7 @@ export function formatTokenMessage(boost: TokenBoost, pair?: DexPair, analysis?:
 
   // Links
   const linkParts: string[] = [];
-  linkParts.push(`<a href="${boost.url}">DexScreener</a>`);
+  linkParts.push(`<a href="${escapeHtml(boost.url)}">DexScreener</a>`);
 
   const socials = [
     ...(pair?.info?.socials ?? []),
@@ -86,10 +78,11 @@ export function formatTokenMessage(boost: TokenBoost, pair?: DexPair, analysis?:
   for (const social of socials) {
     const type = ("type" in social ? social.type : undefined) ??
       ("label" in social ? social.label : undefined) ?? "";
+    const safeUrl = escapeHtml(social.url);
     if (type.toLowerCase() === "twitter") {
-      linkParts.push(`<a href="${social.url}">Twitter</a>`);
+      linkParts.push(`<a href="${safeUrl}">Twitter</a>`);
     } else if (type.toLowerCase() === "telegram") {
-      linkParts.push(`<a href="${social.url}">Telegram</a>`);
+      linkParts.push(`<a href="${safeUrl}">Telegram</a>`);
     }
   }
 

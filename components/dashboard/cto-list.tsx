@@ -5,9 +5,9 @@ import type { CommunityTakeover } from "@/lib/dexscreener/types";
 export function CTOList({ items }: { items: CommunityTakeover[] }) {
   return (
     <TokenCardGrid>
-      {items.map((c, i) => (
+      {items.map((c) => (
         <TokenCard
-          key={`cto-${c.url}-${i}`}
+          key={`${c.chainId}-${c.tokenAddress}`}
           url={c.url}
           chainId={c.chainId}
           tokenAddress={c.tokenAddress}

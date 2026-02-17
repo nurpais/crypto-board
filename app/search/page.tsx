@@ -45,7 +45,10 @@ export default function SearchPage() {
       }
     }, 300);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      abortRef.current?.abort();
+    };
   }, [query]);
 
   return (

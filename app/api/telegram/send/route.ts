@@ -30,7 +30,15 @@ export async function POST(request: Request) {
   const analysis = await analyzeToken(top, pair);
   const text = formatTokenMessage(top, pair, analysis);
 
-  await sendMessage(text);
+  try {
+    await sendMessage(text);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    return NextResponse.json(
+      { error: `Failed to send message: ${message}` },
+      { status: 502 },
+    );
+  }
 
   return NextResponse.json({ ok: true, symbol: pair?.baseToken.symbol });
 }

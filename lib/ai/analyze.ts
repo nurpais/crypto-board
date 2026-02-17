@@ -2,13 +2,13 @@ import OpenAI from "openai";
 import type { TokenBoost, DexPair } from "@/lib/dexscreener/types";
 import { formatCompactNumber } from "@/lib/format";
 
-let _openai: OpenAI | null = null;
+const globalForOpenAI = globalThis as unknown as { _openai?: OpenAI };
 
 function getClient(): OpenAI {
-  if (!_openai) {
-    _openai = new OpenAI();
+  if (!globalForOpenAI._openai) {
+    globalForOpenAI._openai = new OpenAI();
   }
-  return _openai;
+  return globalForOpenAI._openai;
 }
 
 export async function analyzeToken(
